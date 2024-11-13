@@ -53,3 +53,23 @@ function saveHTMLFile(content, filePath) {
 		else console.log(`Plik zapisany jako ${filePath}`);
 	});
 }
+
+async function main() {
+	const articlePath = './article.txt'; // Ścieżka do pliku z artykułem
+	const outputPath = './artykul.html'; // Ścieżka do pliku wyjściowego
+
+	try {
+		const articleContent = await readArticleFile(articlePath);
+		const htmlContent = await processArticleWithAI(articleContent);
+
+		if (htmlContent) {
+			saveHTMLFile(htmlContent, outputPath);
+		} else {
+			console.log('Nie udało się wygenerować kodu HTML.');
+		}
+	} catch (error) {
+		console.error('Błąd w aplikacji:', error);
+	}
+}
+
+main();
