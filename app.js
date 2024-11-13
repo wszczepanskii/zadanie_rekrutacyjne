@@ -4,16 +4,16 @@ import 'dotenv/config';
 
 const OPENAI_API_KEY = process.env.API_KEY;
 
-function readArticleFile(filePath) {
+const readArticleFile = (filePath) => {
 	return new Promise((resolve, reject) => {
 		fs.readFile(filePath, 'utf8', (err, data) => {
 			if (err) reject(err);
 			else resolve(data);
 		});
 	});
-}
+};
 
-async function processArticleWithAI(articleContent) {
+const processArticleWithAI = async (articleContent) => {
 	const prompt = `Zapisz artykuł w formacie HTML z odpowiednimi tagami, ale nie dołączaj tagów <html>, <head> ani <body>. Kod HTML powinien zawierać tylko zawartość, którą można bezpośrednio wstawić między <body> i </body>. Popraw błędy w tekście. Miejsca na grafiki oznacz tagiem <img src="image_placeholder.jpg" alt="[podaj prompt dla obrazu]"> i dodaj podpisy pod grafikami w <figcaption>.`;
 
 	try {
@@ -45,16 +45,16 @@ async function processArticleWithAI(articleContent) {
 	} catch (error) {
 		console.error('Błąd podczas przetwarzania artykułu:', error);
 	}
-}
+};
 
-function saveHTMLFile(content, filePath) {
+const saveHTMLFile = (content, filePath) => {
 	fs.writeFile(filePath, content, (err) => {
 		if (err) console.error('Błąd przy zapisywaniu pliku:', err);
 		else console.log(`Plik zapisany jako ${filePath}`);
 	});
-}
+};
 
-async function main() {
+const main = async () => {
 	const articlePath = './article.txt'; // Ścieżka do pliku z artykułem
 	const outputPath = './artykul.html'; // Ścieżka do pliku wyjściowego
 
@@ -70,6 +70,6 @@ async function main() {
 	} catch (error) {
 		console.error('Błąd w aplikacji:', error);
 	}
-}
+};
 
 main();
