@@ -12,3 +12,37 @@ function readArticleFile(filePath) {
 		});
 	});
 }
+
+async function processArticleWithAI(articleContent) {
+	const prompt = `Zapisz artykuł w formacie HTML z odpowiednimi tagami, ale nie dołączaj tagów <html>, <head> ani <body>. Kod HTML powinien zawierać tylko zawartość, którą można bezpośrednio wstawić między <body> i </body>. Popraw błędy w tekście. Miejsca na grafiki oznacz tagiem <img src="image_placeholder.jpg" alt="[podaj prompt dla obrazu]"> i dodaj podpisy pod grafikami w <figcaption>.`;
+
+	try {
+		const response = await fetch('https://api.openai.com/v1/chat/completions', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${OPENAI_API_KEY}`,
+			},
+			body: JSON.stringify({
+				model: 'gpt-3.5-turbo',
+				messages: [
+					{ role: 'system', content: 'You are a helpful assistant.' },
+					{ role: 'user', content: `${prompt}\n\nArtykuł:\n${articleContent}` },
+				],
+				max_tokens: 1500,
+				temperature: 0.5,
+			}),
+		});
+
+		const data = await response.json();
+
+		if (data.choices && data.choices.length > 0) {
+			return data.choices[0].message.content;
+		} else {
+			console.error('Odpowiedź API nie zawiera oczekiwanego formatu:', data);
+			return null;
+		}
+	} catch (error) {
+		console.error('Błąd podczas przetwarzania artykułu:', error);
+	}
+}
