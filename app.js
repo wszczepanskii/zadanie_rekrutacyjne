@@ -46,3 +46,10 @@ async function processArticleWithAI(articleContent) {
 		console.error('Błąd podczas przetwarzania artykułu:', error);
 	}
 }
+
+function saveHTMLFile(content, filePath) {
+	fs.writeFile(filePath, content, (err) => {
+		if (err) console.error('Błąd przy zapisywaniu pliku:', err);
+		else console.log(`Plik zapisany jako ${filePath}`);
+	});
+}
