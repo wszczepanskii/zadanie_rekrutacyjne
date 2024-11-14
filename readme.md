@@ -20,7 +20,7 @@ Aplikacja napisana w JavaScript wykorzystująca OpenAI API do formatowania artyk
 Sklonuj repozytorium do swojego lokalnego środowiska.
 
 ```bash
-git clone https://github.com/wszczepanskii/zadanie_rekrutacyjne
+git clone https://github.com/wszczepanskii/zadanie_rekrutacyjne.git
 cd zadanie_rekrutacyjne
 ```
 
